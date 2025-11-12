@@ -1,12 +1,17 @@
 import { createSignal } from "solid-js";
 import { useRoute, useRouter } from "solid-navigation";
+import { useAuthContext } from "~/features/auth/auth.context";
 
 export default function Home() {
   const route = useRoute();
   const [inputValue, setInputValue] = createSignal("");
-  const [counter, setCounter] = createSignal(0);
 
   const router = useRouter();
+
+  const { counter, setCounter } = useAuthContext;
+
+  const { user } = useAuthContext;
+
   return (
     <>
       <actionbar title={route.name} />
@@ -30,6 +35,12 @@ export default function Home() {
             <span text=" Blank SolidJS App" />
           </formattedstring>
         </label>
+
+        <label horizontalAlignment="center" height="30">
+          User: {JSON.stringify(user())}
+        </label>
+
+        <label height="20" />
 
         <label horizontalAlignment="center" height="30">
           You have typed: {JSON.stringify(inputValue())}
@@ -66,7 +77,14 @@ export default function Home() {
             router.navigate("Onboarding", { clearHistory: true });
           }}
         >
-          Go to onboardings
+          Go to onboarding
+        </button>
+        <button
+          on:tap={() => {
+            router.navigate("SignIn");
+          }}
+        >
+          Go to signin
         </button>
       </stacklayout>
     </>

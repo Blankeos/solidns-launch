@@ -5,6 +5,7 @@ declare module "solid-navigation" {
     Default: {
       Home: RouteDefinition;
       Onboarding: RouteDefinition;
+      SignIn: RouteDefinition;
     };
   }
 }
