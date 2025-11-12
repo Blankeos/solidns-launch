@@ -1,4 +1,5 @@
 import { createSignal, Show } from "solid-js";
+import { useRouter } from "solid-navigation";
 import { useAuthContext } from "./auth.context";
 
 export function OTPForm() {
@@ -9,6 +10,8 @@ export function OTPForm() {
   const [userId, setUserId] = createSignal("");
   const [email, setEmail] = createSignal("");
 
+  const router = useRouter();
+
   const handleOTPSend = async () => {
     const result = await otpSend.run({ email: email() });
     if (result?.userId) {
@@ -18,7 +21,10 @@ export function OTPForm() {
   };
 
   const handleOTPVerify = async () => {
-    await otpVerify.run({ userId: userId(), code: code() });
+    const result = await otpVerify.run({ userId: userId(), code: code() });
+    if (result) {
+      router.navigate("Home", { clearHistory: true });
+    }
   };
 
   return (

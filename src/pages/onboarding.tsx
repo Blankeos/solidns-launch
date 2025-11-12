@@ -1,3 +1,4 @@
+import { CoreTypes } from "@nativescript/core";
 import { For, createSignal } from "solid-js";
 import { useRouter } from "solid-navigation";
 
@@ -23,9 +24,24 @@ export default function OnboardingPage() {
   const [currentPage, setCurrentPage] = createSignal(0);
   const router = useRouter();
 
+  let animationRefs: HTMLLabelElement[] = [];
+
+  function animateRefs(index: number) {
+    animationRefs.forEach((ref, i) => {
+      if (ref) {
+        ref.animate({
+          width: i === index ? 12 : 8,
+          duration: 2000,
+          curve: CoreTypes.AnimationCurve.spring,
+        });
+      }
+    });
+  }
+
   const nextPage = () => {
     if (currentPage() < onboardingPages.length - 1) {
       setCurrentPage(currentPage() + 1);
+      animateRefs(currentPage());
       return;
     }
 
@@ -35,6 +51,7 @@ export default function OnboardingPage() {
   const prevPage = () => {
     if (currentPage() > 0) {
       setCurrentPage(currentPage() - 1);
+      animateRefs(currentPage());
     }
   };
 
@@ -49,20 +66,42 @@ export default function OnboardingPage() {
           <label class="text-3xl font-bold text-gray-800 mb-4">
             {onboardingPages[currentPage()].title}
           </label>
-          <label class="text-lg text-gray-600 text-center leading-relaxed max-w-full break-words">
+          <label class="text-lg text-gray-600 text-center leading-relaxed max-w-full">
             {onboardingPages[currentPage()].description}
           </label>
         </stacklayout>
 
         <stacklayout class="flex-1" />
 
-        <stacklayout class="flex-row justify-center items-center mb-4">
+        <stacklayout
+          class="mb-4"
+          orientation="horizontal"
+          horizontalAlignment="center"
+        >
           <For each={onboardingPages}>
-            {(_, index) => (
-              <stacklayout
-                class={`w-2 h-2 rounded-full mx-1 transition-all duration-300 ${
-                  index() === currentPage() ? "bg-blue-500 w-8" : "bg-gray-300"
-                }`}
+            {(item, index) => (
+              <label
+                ref={(el) => {
+                  animationRefs[index()] = el;
+                  // if (index() === currentPage() && el) {
+                  //   el.animate({
+                  //     width: 32,
+                  //     duration: 300,
+                  //     curve: CoreTypes.AnimationCurve.easeInOut,
+                  //   });
+                  // } else if (el) {
+                  //   el.animate({
+                  //     width: 8,
+                  //     duration: 300,
+                  //     curve: CoreTypes.AnimationCurve.easeInOut,
+                  //   });
+                  // }
+                }}
+                class="w-2 h-2 rounded-full mx-1"
+                style={{
+                  backgroundColor:
+                    index() === currentPage() ? "#3b82f6" : "#d1d5db",
+                }}
               />
             )}
           </For>
@@ -85,7 +124,7 @@ export default function OnboardingPage() {
                 : "Next"
             }
             on:tap={nextPage}
-            class="px-6 py-3 rounded-lg font-medium bg-blue-500 text-white"
+            class="px-6 py-3 rounded-lg font-medium bg-blue-500 text-white mt-2"
           />
         </stacklayout>
       </stacklayout>

@@ -1,5 +1,6 @@
-import { createSignal } from "solid-js";
+import { Show, createSignal } from "solid-js";
 import { useRoute, useRouter } from "solid-navigation";
+import { Button } from "~/components/button";
 import { useAuthContext } from "~/features/auth/auth.context";
 
 export default function Home() {
@@ -10,7 +11,7 @@ export default function Home() {
 
   const { counter, setCounter } = useAuthContext;
 
-  const { user } = useAuthContext;
+  const { user, loading, logout } = useAuthContext;
 
   return (
     <>
@@ -73,19 +74,37 @@ export default function Home() {
           Increase {counter()}
         </button>
         <button
+          class="text-lg"
           on:tap={() => {
             router.navigate("Onboarding", { clearHistory: true });
           }}
         >
           Go to onboarding
         </button>
-        <button
-          on:tap={() => {
-            router.navigate("SignIn");
-          }}
-        >
-          Go to signin
-        </button>
+
+        <Show when={!loading() && !user()}>
+          <button
+            class="text-lg active:scale-95 transition"
+            on:tap={() => {
+              router.navigate("SignIn");
+            }}
+          >
+            Go to signin
+          </button>
+        </Show>
+
+        <Show when={!loading() && user()}>
+          <button
+            on:tap={() => {
+              logout.run();
+            }}
+            class="bg-red-500 text-white rounded-md text-lg"
+          >
+            Logout
+          </button>
+        </Show>
+
+        <Button>Hi there</Button>
       </stacklayout>
     </>
   );
