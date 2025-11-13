@@ -17,7 +17,7 @@ export function QuickAction(props: QuickActionProps) {
 
   return (
     <flexboxlayout
-      class={`rounded-xl p-4 border border-gray-200 shadow-sm hover:bg-gray-50 transition-all ${
+      class={`rounded-xl p-4 border border-gray-200 hover:bg-gray-50 transition-all ${
         props.class || ""
       }`}
       on:tap={props.onTap}

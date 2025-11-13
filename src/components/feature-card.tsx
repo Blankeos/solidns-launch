@@ -11,7 +11,7 @@ interface FeatureCardProps {
 export function FeatureCard(props: FeatureCardProps) {
   return (
     <stacklayout
-      class={`bg-white rounded-2xl p-6 shadow-md border border-gray-100 ${
+      class={`bg-white rounded-2xl p-6  border border-gray-100 ${
         props.class || ""
       }`}
       on:tap={props.onTap}

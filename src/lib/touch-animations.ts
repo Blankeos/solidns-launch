@@ -109,6 +109,6 @@ const createTouchAnimation = (
 };
 
 export const handleTouchScaleAnimation = createTouchAnimation(
-  { scale: { x: 0.95, y: 0.95 }, duration: 100 },
+  { scale: { x: 0.98, y: 0.98 }, duration: 100 },
   { scale: { x: 1, y: 1 }, duration: 150 }
 );

@@ -1,6 +1,6 @@
+import { useRouter } from "@/router";
 import { CoreTypes } from "@nativescript/core";
 import { For, createSignal } from "solid-js";
-import { useRouter } from "solid-navigation";
 import { TouchAnimations } from "~/lib/touch-animations";
 
 const onboardingPages = [

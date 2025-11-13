@@ -1,4 +1,4 @@
-import { useRouter } from "solid-navigation";
+import { useRouter } from "@/router";
 import { useAuthContext } from "~/features/auth/auth.context";
 
 interface AppHeaderProps {
@@ -17,7 +17,7 @@ export function AppHeader(props: AppHeaderProps) {
           <label class="w-8 h-8 mr-2 bg-blue-500 rounded-md flex items-center justify-center">
             <label class="text-white font-bold text-sm">S</label>
           </label>
-          <label class="text-xl font-bold text-blue-500">SolidNS</label>
+          <label class="text-xl font-bold text-indigo-800">SolidApp</label>
         </flexboxlayout>
 
         <stacklayout class="flex-1" alignSelf="stretch" />

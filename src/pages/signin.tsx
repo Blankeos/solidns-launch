@@ -8,11 +8,11 @@ export function SignInPage() {
   return (
     <stacklayout class="h-full bg-linear-to-b from-indigo-50 to-white px-6 py-10">
       <stacklayout class="mx-auto w-full max-w-md items-center gap-y-10">
-        <label class="text-3xl font-bold text-indigo-800 text-center mb-8">
-          Welcome Back
+        <label class="text-4xl font-bold text-center mb-8 font-inst">
+          Welcome Back!
         </label>
 
-        <stacklayout class="w-full bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+        <stacklayout class="w-full bg-white rounded-2xl  p-8 border border-gray-100">
           <label class="text-xl font-medium text-center mb-1">Sign In</label>
           <label class="text-sm text-gray-500 text-center mb-8">
             Access your account securely
@@ -32,8 +32,8 @@ export function SignInPage() {
           </stacklayout>
 
           <stacklayout
-            class="w-full py-4 px-4 bg-white border border-gray-300 rounded-xl flex-row items-center justify-center gap-3 shadow-sm hover:bg-gray-50 transition-all"
-            // on:tap={async () => googleLogin.run({})}
+            class="w-full py-4 px-4 bg-white border border-gray-300 rounded-xl flex-row items-center justify-center gap-3 hover:bg-gray-50 transition-all"
+            on:tap={async () => googleLogin.run({})}
             orientation="horizontal"
             horizontalAlignment="center"
             on:touch={handleTouchScaleAnimation}
@@ -49,7 +49,7 @@ export function SignInPage() {
           <stacklayout class="mb-4" />
 
           <stacklayout
-            class="w-full py-4 px-4 bg-white border border-gray-300 rounded-xl flex-row items-center justify-center gap-3 shadow-sm hover:bg-gray-50 transition-all"
+            class="w-full py-4 px-4 bg-white border border-gray-300 rounded-xl flex-row items-center justify-center gap-3 hover:bg-gray-50 transition-all"
             on:tap={async () => githubLogin.run({})}
             orientation="horizontal"
             horizontalAlignment="center"

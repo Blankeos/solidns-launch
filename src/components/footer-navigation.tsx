@@ -1,4 +1,4 @@
-import { useRouter } from "solid-navigation";
+import { useRouter } from "@/router";
 
 export function FooterNavigation() {
   const router = useRouter();
@@ -11,7 +11,7 @@ export function FooterNavigation() {
       <flexboxlayout class="w-full" flexDirection="column" alignItems="center">
         {/* App Info */}
         <flexboxlayout class="gap-6">
-          <label class="text-xs text-gray-500">SolidNS v1.0</label>
+          <label class="text-xs text-gray-500">SolidApp v1.0</label>
           <label class="text-xs text-gray-500">© 2024</label>
         </flexboxlayout>
 
@@ -88,13 +88,13 @@ export function FooterNavigation() {
         <flexboxlayout class="gap-4">
           <label
             class="text-xs text-gray-500 underline"
-            on:tap={() => router.navigate("Terms")}
+            on:tap={() => console.log("Terms tapped")}
           >
             Terms
           </label>
           <label
             class="text-xs text-gray-500 underline"
-            on:tap={() => router.navigate("Privacy")}
+            on:tap={() => console.log("Privacy tapped")}
           >
             Privacy
           </label>

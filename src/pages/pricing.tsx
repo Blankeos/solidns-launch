@@ -1,5 +1,5 @@
+import { useRouter } from "@/router";
 import { For, createSignal } from "solid-js";
-import { useRouter } from "solid-navigation";
 import { FAQItem } from "~/components/pricing/faq-item";
 import {
   FeatureComparison,
@@ -188,7 +188,7 @@ export default function PricingPage() {
         />
 
         {/* FAQ Section */}
-        <stacklayout class="bg-white rounded-2xl p-6 shadow-md mt-8">
+        <stacklayout class="bg-white rounded-2xl p-6  mt-8">
           <label class="text-xl font-bold text-gray-900 mb-6 text-center">
             Frequently Asked Questions
           </label>

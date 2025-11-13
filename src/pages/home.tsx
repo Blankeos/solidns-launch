@@ -1,16 +1,13 @@
-import { createEffect, createMemo } from "solid-js";
-import { useRoute, useRouter } from "solid-navigation";
-import { AppHeader } from "~/components/app-header";
+import { useRoute, useRouter } from "@/router";
+import { createMemo } from "solid-js";
 import { FeatureCard } from "~/components/feature-card";
-import { FooterNavigation } from "~/components/footer-navigation";
-import { QuickAction } from "~/components/quick-action";
 import { StatsDisplay } from "~/components/stats-display";
 import { useAuthContext } from "~/features/auth/auth.context";
 
 export default function Home() {
   const route = useRoute();
   const router = useRouter();
-  const { user, loading, logout, counter } = useAuthContext;
+  const { user, loading, counter } = useAuthContext;
 
   const userName = createMemo(() => {
     const currentUser = user();
@@ -19,123 +16,102 @@ export default function Home() {
 
   const userStats = createMemo(() => {
     return {
-      domains: 3,
+      projects: 3,
       storage: "2.5GB",
-      visits: 1250,
+      tasks: 1250,
     };
   });
 
-  createEffect(() => {
-    console.log("Home page mounted, user:", user());
-  });
-
   return (
-    <scrollview>
-      <stacklayout class="bg-gray-50 min-h-full">
-        {/* App Header */}
-        <AppHeader title={route.name} />
+    <stacklayout class="bg-gray-50 min-h-full">
+      {/* Header */}
+      <stacklayout class="px-6 py-6 bg-white border-b border-gray-200">
+        <label class="text-3xl text-gray-900 font-inst">Home</label>
+        <label class="text-gray-600 mt-1">
+          Welcome{user() ? `, ${userName()}` : ""} 👋
+        </label>
+      </stacklayout>
 
-        {/* Hero Section */}
-        <stacklayout class="px-6 py-8 bg-linear-to-b from-indigo-50 to-white">
-          <label class="text-3xl font-bold text-indigo-800 mb-2">
-            Welcome{user() ? `, ${userName()}` : ""} 👋
-          </label>
-          <label class="text-lg text-gray-600 mb-6">
-            Manage your domains and web presence with ease
-          </label>
-
+      {/* Content */}
+      <scrollview>
+        <stacklayout class="px-6 py-6">
           {/* Quick Stats */}
-          <stacklayout orientation="horizontal" class="gap-3 mb-8">
+          <gridlayout
+            columns="*, *, *"
+            orientation="horizontal"
+            class="gap-4 mb-8"
+          >
             <StatsDisplay
-              value={userStats().domains}
-              label="Domains"
+              value={userStats().projects}
+              label="Projects"
               trend="up"
-              class="flex-1"
+              class="flex-1 mr-1"
             />
             <StatsDisplay
+              column="1"
               value={userStats().storage}
               label="Storage"
               trend="neutral"
-              class="flex-1"
+              class="flex-1 mr-1"
             />
             <StatsDisplay
-              value={userStats().visits}
-              label="Visits"
+              column="2"
+              value={userStats().tasks}
+              label="Tasks"
               trend="up"
               class="flex-1"
             />
-          </stacklayout>
-        </stacklayout>
+          </gridlayout>
 
-        {/* Features Grid */}
-        <stacklayout class="px-6 py-6">
+          {/* Quick Actions */}
           <label class="text-xl font-semibold text-gray-900 mb-4">
-            Features
+            Quick Access
           </label>
-          <gridlayout rows="auto, auto" columns="*, *" class="gap-4">
+          <gridlayout rows="auto, auto" columns="*, *" class="gap-4 mb-8">
             <FeatureCard
-              icon="~/assets/icons/check-circle.svg"
+              icon="💰"
               title="Pricing"
-              description="Explore our flexible plans and pricing options"
+              description="View subscription options"
               onTap={() => router.navigate("Pricing")}
               class="col-0 row-0"
             />
             <FeatureCard
-              icon="~/assets/icons/check-circle.svg"
-              title="Profile"
-              description="Manage your account settings and preferences"
-              onTap={() => console.log("Profile tapped")}
+              icon="🚀"
+              title="Get Started"
+              description="Begin using the app"
+              onTap={() => router.navigate("Onboarding")}
               class="col-1 row-0"
             />
             <FeatureCard
-              icon="~/assets/icons/check-circle.svg"
-              title="Settings"
-              description="Configure app settings and preferences"
-              onTap={() => console.log("Settings tapped")}
+              icon="📊"
+              title="Analytics"
+              description="Track your progress"
+              onTap={() => console.log("Analytics tapped")}
               class="col-0 row-1"
             />
             <FeatureCard
-              icon="~/assets/icons/check-circle.svg"
-              title="Support"
-              description="Get help and contact our support team"
-              onTap={() => console.log("Support tapped")}
+              icon="🎯"
+              title="Goals"
+              description="Set and achieve targets"
+              onTap={() => console.log("Goals tapped")}
               class="col-1 row-1"
             />
           </gridlayout>
-        </stacklayout>
 
-        {/* Quick Actions */}
-        <stacklayout class="px-6 py-6 bg-white">
+          {/* Recent Activity */}
           <label class="text-xl font-semibold text-gray-900 mb-4">
-            Quick Actions
+            Recent Activity
           </label>
-          <stacklayout class="gap-3">
-            <QuickAction
-              icon="🚀"
-              title="Get Started"
-              subtitle="Set up your first domain"
-              onTap={() => router.navigate("Onboarding")}
-            />
-            <label class="h-2"></label>
-            <QuickAction
-              icon="📚"
-              title="Documentation"
-              subtitle="Read our comprehensive guides"
-              onTap={() => console.log("Documentation tapped")}
-            />
-            <label class="h-2"></label>
-            <QuickAction
-              icon="👥"
-              title="Community"
-              subtitle="Join our user community"
-              onTap={() => console.log("Community tapped")}
-            />
+          <stacklayout class="bg-white rounded-lg p-4">
+            <label class="text-gray-600 text-center">
+              No recent activity yet
+            </label>
+            <label class="text-sm text-gray-400 text-center mt-2">
+              Start using the app to see your activity here
+            </label>
           </stacklayout>
         </stacklayout>
-
-        {/* Footer Navigation */}
-        <FooterNavigation />
-      </stacklayout>
-    </scrollview>
+      </scrollview>
+    </stacklayout>
   );
 }

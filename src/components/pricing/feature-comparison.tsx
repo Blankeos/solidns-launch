@@ -17,7 +17,7 @@ export function FeatureComparison(props: FeatureComparisonProps) {
   };
 
   return (
-    <stacklayout class="bg-white rounded-2xl p-6 shadow-md">
+    <stacklayout class="bg-white rounded-2xl p-6 ">
       <label class="text-xl font-bold text-gray-900 mb-6 text-center">
         Feature Comparison
       </label>

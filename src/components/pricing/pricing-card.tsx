@@ -23,9 +23,7 @@ export function PricingCard(props: PricingCardProps) {
   return (
     <stacklayout
       class={`rounded-2xl p-6 border ${
-        props.tier.isPopular
-          ? "border-blue-300 shadow-lg"
-          : "border-gray-200 shadow-md"
+        props.tier.isPopular ? "border-blue-300 " : "border-gray-200 "
       } bg-white`}
       style={{
         transform: props.tier.isPopular ? "scale(1.02)" : "scale(1)",
@@ -78,7 +76,7 @@ export function PricingCard(props: PricingCardProps) {
       <button
         on:tap={props.onSelect}
         class={`py-3 px-6 rounded-lg font-semibold text-white text-center ${
-          props.tier.isPopular ? "shadow-lg" : "shadow-md"
+          props.tier.isPopular ? "" : ""
         }`}
         style={{ backgroundColor: highlightColor }}
         touchAnimation={TouchAnimations.touchScale}

@@ -14,3 +14,19 @@
   font-family: "Font Awesome 5 Free", "fa-regular-400";
   font-weight: 400;
 }
+
+@utility font-inst-italic {
+  font-family: "Instrument Serif", "InstrumentSerif-Italic";
+  font-style: italic;
+  font-weight: 400;
+}
+
+@utility font-inst {
+  font-family: "Instrument Serif", "InstrumentSerif-Regular";
+  font-weight: 400;
+}
+
+@utility font-manrope {
+  font-family: "Manrope", "Manrope-VariableFont_wght";
+  font-weight: 900;
+}

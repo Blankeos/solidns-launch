@@ -1,5 +1,5 @@
+import { useRouter } from "@/router";
 import { createSignal, Show } from "solid-js";
-import { useRouter } from "solid-navigation";
 import { useAuthContext } from "./auth.context";
 
 export function OTPForm() {
@@ -32,6 +32,7 @@ export function OTPForm() {
       <textfield
         hint="Email"
         text={email()}
+        keyboardType="email"
         on:textChange={(args) => {
           setEmail(args.value);
           // console.log("carll", args.value);
@@ -53,6 +54,7 @@ export function OTPForm() {
         <textfield
           hint="OTP Code"
           text={code()}
+          keyboardType="integer"
           on:textChange={(args) => setCode(args.value)}
           class="p-4 border border-gray-300 rounded mb-3"
         />

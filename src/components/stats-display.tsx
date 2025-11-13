@@ -1,6 +1,8 @@
 import { createMemo } from "solid-js";
 
 interface StatsDisplayProps {
+  row?: string;
+  column?: string;
   value: number | string;
   label: string;
   trend?: "up" | "down" | "neutral";
@@ -32,16 +34,17 @@ export function StatsDisplay(props: StatsDisplayProps) {
 
   return (
     <stacklayout
-      class={`bg-white rounded-xl p-4 shadow-sm border border-gray-100 ${
+      row={props.row}
+      column={props.column}
+      class={`bg-white rounded-xl p-4 border border-gray-100 ${
         props.class || ""
       }`}
     >
-      <label class="text-2xl font-bold text-indigo-800 mb-1">
-        {props.value}
+      <label class="text-2xl font-bold mb-1">{props.value ?? 0}</label>
+      <label>
+        {props.value ?? 0}
         {props.trend && (
-          <span class={`text-sm ml-1 ${trendColor()}`}>
-            {trendIcon()}
-          </span>
+          <span class={`text-sm ml-1 ${trendColor()}`}>{trendIcon()}</span>
         )}
       </label>
       <label class="text-sm text-gray-600">{props.label}</label>
