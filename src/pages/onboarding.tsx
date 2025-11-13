@@ -1,6 +1,7 @@
 import { CoreTypes } from "@nativescript/core";
 import { For, createSignal } from "solid-js";
 import { useRouter } from "solid-navigation";
+import { TouchAnimations } from "~/lib/touch-animations";
 
 const onboardingPages = [
   {
@@ -12,6 +13,8 @@ const onboardingPages = [
     title: "Explore",
     description: "Navigate through different sections and find what you need.",
     emoji: "🗺️",
+    image:
+      "https://images.unsplash.com/photo-1658837345115-e22db41aafff?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     title: "Get Started",
@@ -58,20 +61,46 @@ export default function OnboardingPage() {
   return (
     <>
       {/*<scrollview orientation="verticla" scrollEnabled={false}>*/}
-      <stacklayout class="h-full max-w-screen">
+      <flexboxlayout class="h-full max-w-screen" flexDirection="column">
         <stacklayout class="flex-1 items-center justify-center p-8">
-          <label class="text-6xl mb-6">
-            {onboardingPages[currentPage()].emoji}
-          </label>
-          <label class="text-3xl font-bold text-gray-800 mb-4">
+          {currentPage() === 1 ? (
+            <image
+              src={onboardingPages[1].image}
+              class="w-full h-56 mb-6 rounded-lg"
+              stretch="aspectFill"
+            />
+          ) : (
+            <stacklayout
+              class={`h-56 rounded-lg mb-6 ${
+                currentPage() === 2 ? "bg-green-400" : "bg-purple-500"
+              }`}
+            >
+              <stacklayout
+                class="h-full"
+                horizontalAlignment="center"
+                verticalAlignment="center"
+              >
+                <label class="text-6xl">
+                  {onboardingPages[currentPage()].emoji}
+                </label>
+              </stacklayout>
+            </stacklayout>
+          )}
+          <label
+            class="text-3xl font-bold text-gray-800 mb-4"
+            horizontalAlignment="center"
+          >
             {onboardingPages[currentPage()].title}
           </label>
-          <label class="text-lg text-gray-600 text-center leading-relaxed max-w-full">
+          <label
+            class="text-lg text-gray-600 text-center leading-relaxed max-w-full"
+            textWrap
+          >
             {onboardingPages[currentPage()].description}
           </label>
         </stacklayout>
 
-        <stacklayout class="flex-1" />
+        <stacklayout class="flex-1" alignSelf="stretch" />
 
         <stacklayout
           class="mb-4"
@@ -79,23 +108,10 @@ export default function OnboardingPage() {
           horizontalAlignment="center"
         >
           <For each={onboardingPages}>
-            {(item, index) => (
+            {(_, index) => (
               <label
                 ref={(el) => {
                   animationRefs[index()] = el;
-                  // if (index() === currentPage() && el) {
-                  //   el.animate({
-                  //     width: 32,
-                  //     duration: 300,
-                  //     curve: CoreTypes.AnimationCurve.easeInOut,
-                  //   });
-                  // } else if (el) {
-                  //   el.animate({
-                  //     width: 8,
-                  //     duration: 300,
-                  //     curve: CoreTypes.AnimationCurve.easeInOut,
-                  //   });
-                  // }
                 }}
                 class="w-2 h-2 rounded-full mx-1"
                 style={{
@@ -111,6 +127,7 @@ export default function OnboardingPage() {
           <button
             text="Previous"
             on:tap={prevPage}
+            touchAnimation={TouchAnimations.touchScale}
             class={`px-6 py-3 rounded-lg font-medium transition-opacity ${
               currentPage() === 0
                 ? "opacity-0"
@@ -124,10 +141,11 @@ export default function OnboardingPage() {
                 : "Next"
             }
             on:tap={nextPage}
+            touchAnimation={TouchAnimations.touchScale}
             class="px-6 py-3 rounded-lg font-medium bg-blue-500 text-white mt-2"
           />
         </stacklayout>
-      </stacklayout>
+      </flexboxlayout>
       {/*</scrollview>*/}
     </>
   );

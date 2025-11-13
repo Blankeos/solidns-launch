@@ -37,7 +37,7 @@ export function OTPForm() {
           // console.log("carll", args.value);
           // setEmail((args.value as string).toLowerCase());
         }}
-        class="p-4 border border-gray-300 rounded"
+        class="p-4 border border-gray-300 rounded mb-3"
         autocapitalizationtype="none"
       />
       <Show
@@ -54,7 +54,7 @@ export function OTPForm() {
           hint="OTP Code"
           text={code()}
           on:textChange={(args) => setCode(args.value)}
-          class="p-4 border border-gray-300 rounded"
+          class="p-4 border border-gray-300 rounded mb-3"
         />
         <button
           text="Verify OTP"

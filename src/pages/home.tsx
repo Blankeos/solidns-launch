@@ -79,7 +79,10 @@ export default function Home() {
         <button
           class="text-lg"
           on:tap={() => {
-            router.navigate("Onboarding", { clearHistory: true });
+            router.navigate("Onboarding", {
+              clearHistory: true,
+              noHeader: true,
+            });
           }}
         >
           Go to onboarding
@@ -89,7 +92,7 @@ export default function Home() {
           <button
             class="text-lg active:scale-95 transition"
             on:tap={() => {
-              router.navigate("SignIn");
+              router.navigate("SignIn", { noHeader: true });
             }}
           >
             Go to signin
