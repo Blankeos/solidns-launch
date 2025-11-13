@@ -1,4 +1,6 @@
 import { honoClient } from "@/lib/hono-client";
+import { Utils } from "@nativescript/core";
+import { InAppBrowser } from "nativescript-inappbrowser";
 import {
   createMemo,
   createRoot,
@@ -12,6 +14,8 @@ import {
 // import type { UserResponseDTO } from "@/server/modules/auth/auth.dto";
 import { Routers } from "solid-navigation/dist/src/types";
 import { UserResponseDTO } from "~/lib/api";
+import { getDeepLink } from "~/utils/get-deep-link";
+import { generateCodeChallenge, generateCodeVerifier } from "./auth.utils";
 // import { usePostLoginRedirectUrl } from "./use-post-login-redirect-url";
 
 // ===========================================================================
@@ -198,9 +202,12 @@ export const createAuthContext = () => {
   });
 
   // OAuth utility function
-  function _openOAuthUrl(
+  async function _openOAuthUrl(
     url: string,
+    deepLink: string,
     options?: {
+      /** Passing this will enable PKCE mode. Meaning you separately call `/token` to get the actual session. */
+      codeVerifier?: string;
       newWindow?: boolean;
       width?: number;
       height?: number;
@@ -214,45 +221,41 @@ export const createAuthContext = () => {
       timeout = 30_000,
     } = options || {};
 
-    if (newWindow) {
-      const popup = window.open(
-        url,
-        "oauth",
-        `popup,width=${width},height=${height},left=${
-          screen.width / 2 - width / 2
-        },top=${screen.height / 2 - height / 2}`
-      );
-      if (!popup) {
-        window.location.href = url;
-        return Promise.resolve({ success: true });
-      }
-      return new Promise<{ success: boolean }>((resolve) => {
-        const poll = setInterval(() => {
-          try {
-            // When the popup redirects back to the same origin, close it and finish
-            if (
-              popup.closed ||
-              popup.location.origin === window.location.origin
-            ) {
-              clearInterval(poll);
-              if (!popup.closed) popup.close();
-              _fetchCurrentUser();
-              resolve({ success: true });
-            }
-          } catch {
-            // Cross-origin, keep polling
-          }
-        }, 500);
-        // Safety timeout
-        setTimeout(() => {
-          clearInterval(poll);
-          if (!popup.closed) popup.close();
-          resolve({ success: true });
-        }, timeout);
-      });
-    }
+    if (await InAppBrowser.isAvailable()) {
+      InAppBrowser.openAuth(url, deepLink, {
+        // iOS Properties
+        ephemeralWebSession: false,
+        // Android Properties
+        showTitle: false,
+        enableUrlBarHiding: true,
+        enableDefaultShare: false,
+      })
+        .then(async (response) => {
+          if (response.type === "success" && response.url) {
+            const parsedUrl = new URL(response.url);
+            const authCode = parsedUrl.searchParams.get("auth_code");
 
-    window.location.href = url;
+            const _response = await honoClient.auth.login.token.$post({
+              json: {
+                auth_code: authCode!,
+                code_verifier: options?.codeVerifier!,
+              },
+            });
+
+            const data = await _response.json();
+            if (data.user) {
+              setUser(data.user);
+            } else {
+            }
+
+            Utils.openUrl(deepLink);
+          }
+        })
+        .catch((error) => {
+          console.log("InAppBrowser error:", error);
+        });
+    } else Utils.openUrl(url);
+
     return new Promise<{ success: boolean }>((resolve) => {
       setTimeout(() => resolve({ success: true }), timeout);
     });
@@ -262,20 +265,40 @@ export const createAuthContext = () => {
     { newWindow?: boolean },
     { success: boolean }
   >(async (options) => {
+    const deepLink = getDeepLink("Home");
+    const codeVerifier = generateCodeVerifier();
+    const codeChallenge = await generateCodeChallenge(codeVerifier);
+
     const url = honoClient.auth.login.google
-      .$url({ query: { redirect_url: postLoginRedirectUrl() } })
+      .$url({
+        query: { redirect_url: deepLink, clientCodeChallenge: codeChallenge },
+      })
       .toString();
-    return _openOAuthUrl(url, { newWindow: options?.newWindow });
+
+    return _openOAuthUrl(url, deepLink, {
+      codeVerifier: codeVerifier,
+      newWindow: options?.newWindow,
+    });
   });
 
   const githubLogin = createMutation<
     { newWindow?: boolean },
     { success: boolean }
   >(async (options?: { newWindow?: boolean }) => {
+    const deepLink = getDeepLink("Home");
+    const codeVerifier = generateCodeVerifier();
+    const codeChallenge = await generateCodeChallenge(codeVerifier);
+
     const url = honoClient.auth.login.github
-      .$url({ query: { redirect_url: postLoginRedirectUrl() } })
+      .$url({
+        query: { redirect_url: deepLink, clientCodeChallenge: codeChallenge },
+      })
       .toString();
-    return _openOAuthUrl(url, { newWindow: options?.newWindow });
+
+    return _openOAuthUrl(url, deepLink, {
+      codeVerifier: codeVerifier,
+      newWindow: options?.newWindow,
+    });
   });
 
   const magicLinkSend = createMutation<{ email: string }, { success: boolean }>(

@@ -1,6 +1,5 @@
 import { Show, createSignal } from "solid-js";
 import { useRoute, useRouter } from "solid-navigation";
-import { Button } from "~/components/button";
 import { useAuthContext } from "~/features/auth/auth.context";
 
 export default function Home() {
@@ -11,7 +10,7 @@ export default function Home() {
 
   const { counter, setCounter } = useAuthContext;
 
-  const { user, loading, logout } = useAuthContext;
+  const { user, loading, logout, googleLogin } = useAuthContext;
 
   return (
     <>
@@ -39,6 +38,10 @@ export default function Home() {
 
         <label horizontalAlignment="center" height="30">
           User: {JSON.stringify(user())}
+        </label>
+
+        <label horizontalAlignment="center" height="30">
+          {/*Battery: {JSON.stringify(UIDevice.currentDevice.batteryLevel * 100)}*/}
         </label>
 
         <label height="20" />
@@ -103,8 +106,6 @@ export default function Home() {
             Logout
           </button>
         </Show>
-
-        <Button>Hi there</Button>
       </stacklayout>
     </>
   );

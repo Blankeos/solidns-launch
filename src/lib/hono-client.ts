@@ -27,12 +27,16 @@ export const initHonoClient = (
           return json.error.message;
         })();
 
+        console.error("[honoClient] error:", errorMessage);
+
         throw new HTTPException(response.status as ContentfulStatusCode, {
           message: errorMessage || response.statusText,
           cause: json.error.cause,
           res: response,
         });
       }
+
+      console.log("COOKIES", response.headers.get("set-cookie"));
 
       // This is where we proxy it back. (Not needed because purely clientside)
       // for (const [key, value] of response.headers) {
