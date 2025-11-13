@@ -6,6 +6,7 @@ declare module "solid-navigation" {
       Home: RouteDefinition;
       Onboarding: RouteDefinition;
       SignIn: RouteDefinition;
+      Pricing: RouteDefinition;
     };
   }
 }

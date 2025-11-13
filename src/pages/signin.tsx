@@ -6,7 +6,7 @@ export function SignInPage() {
   const { counter, googleLogin, githubLogin } = useAuthContext;
 
   return (
-    <stacklayout class="h-full bg-gradient-to-b from-indigo-50 to-white px-6 py-10">
+    <stacklayout class="h-full bg-linear-to-b from-indigo-50 to-white px-6 py-10">
       <stacklayout class="mx-auto w-full max-w-md items-center gap-y-10">
         <label class="text-3xl font-bold text-indigo-800 text-center mb-8">
           Welcome Back

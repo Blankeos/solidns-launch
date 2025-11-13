@@ -99,6 +99,17 @@ export default function Home() {
           </button>
         </Show>
 
+        <button
+          class="text-lg active:scale-95 transition"
+          on:tap={() => {
+            router.navigate("Pricing", {
+              backstackVisible: true,
+            });
+          }}
+        >
+          Go to pricing
+        </button>
+
         <Show when={!loading() && user()}>
           <button
             on:tap={() => {
