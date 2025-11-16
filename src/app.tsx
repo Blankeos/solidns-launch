@@ -13,8 +13,6 @@ import { SignInPage } from "./pages/signin";
 import { parseDeepLink } from "./utils/get-deep-link";
 
 const App = () => {
-  const { user } = useAuthContext;
-
   return (
     <>
       <gridlayout rows="*, auto">
@@ -38,6 +36,8 @@ const App = () => {
 export { App };
 
 function Providers() {
+  const { user } = useAuthContext;
+
   const router = useRouter();
   HACK_setRouter(router);
 

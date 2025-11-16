@@ -109,6 +109,7 @@ export default function Home() {
             <label class="text-sm text-gray-400 text-center mt-2">
               Start using the app to see your activity here
             </label>
+            <label>{router.current().name}</label>
           </stacklayout>
         </stacklayout>
       </scrollview>

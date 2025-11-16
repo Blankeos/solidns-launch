@@ -1,4 +1,4 @@
-import { HACK_getRouter } from "@/router";
+import { HACK_useRouter } from "@/router";
 import { CoreTypes } from "@nativescript/core";
 import { For, Show, createSignal } from "solid-js";
 import { handleTouchScaleAnimation } from "~/lib/touch-animations";
@@ -8,7 +8,6 @@ type TabType = "home" | "discover" | "profile" | "more";
 interface BottomNavigationProps {}
 
 export function BottomNavigation(props: BottomNavigationProps) {
-  const [activeTab, setActiveTab] = createSignal<TabType>("home");
   const [previousIndex, setPreviousIndex] = createSignal(0);
 
   const tabs = [
@@ -38,26 +37,22 @@ export function BottomNavigation(props: BottomNavigationProps) {
     },
   ];
 
-  const handleTabPress = (tab: TabType, route: string, index: number) => {
-    const router = HACK_getRouter();
+  const router = HACK_useRouter();
 
-    if (activeTab() !== tab) {
-      setPreviousIndex(tabs.findIndex((t) => t.id === activeTab()));
-      setActiveTab(tab);
+  const getActiveTab = () => {
+    const currentRoute = router()?.current()?.name;
+    const tab = tabs.find((t) => t.route === currentRoute);
+    return tab ? tab.id : "home";
+  };
+
+  const handleTabPress = (tab: TabType, route: string, index: number) => {
+    if (getActiveTab() !== tab) {
+      setPreviousIndex(tabs.findIndex((t) => t.id === getActiveTab()));
 
       const transitionName =
         index > previousIndex() ? "slideLeft" : "slideRight";
 
-      console.log(
-        "[previousIndex]",
-        previousIndex(),
-        "[clicked index]",
-        index,
-        "[transition]",
-        transitionName
-      );
-
-      router.navigate(route, {
+      router()?.navigate(route, {
         noHeader: true,
         clearHistory: true,
         transition: {
@@ -88,7 +83,7 @@ export function BottomNavigation(props: BottomNavigationProps) {
           >
             <label
               class={`text-2xl ${
-                activeTab() === tab.id ? "text-indigo-600" : "text-gray-400"
+                getActiveTab() === tab.id ? "text-indigo-600" : "text-gray-400"
               }`}
               alignSelf="center"
             >
@@ -96,14 +91,15 @@ export function BottomNavigation(props: BottomNavigationProps) {
             </label>
             <label
               class={`text-xs mt-1 ${
-                activeTab() === tab.id
+                getActiveTab() === tab.id
                   ? "text-indigo-600 font-medium"
                   : "text-gray-500"
               }`}
             >
-              {tab.label}
+              {/*{tab.label}*/}
+              {router()?.current()?.name}
             </label>
-            <Show when={activeTab() === tab.id}>
+            <Show when={getActiveTab() === tab.id}>
               <label class="w-1 h-1 bg-indigo-600 rounded-full mt-1" />
             </Show>
           </flexboxlayout>

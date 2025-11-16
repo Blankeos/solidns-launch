@@ -44,7 +44,7 @@ export function StatsDisplay(props: StatsDisplayProps) {
       <label>
         {props.value ?? 0}
         {props.trend && (
-          <span class={`text-sm ml-1 ${trendColor()}`}>{trendIcon()}</span>
+          <label class={`text-sm ml-1 ${trendColor()}`}>{trendIcon()}</label>
         )}
       </label>
       <label class="text-sm text-gray-600">{props.label}</label>

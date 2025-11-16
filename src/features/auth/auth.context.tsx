@@ -221,40 +221,44 @@ export const createAuthContext = () => {
       timeout = 30_000,
     } = options || {};
 
-    if (await InAppBrowser.isAvailable()) {
-      InAppBrowser.openAuth(url, deepLink, {
-        // iOS Properties
-        ephemeralWebSession: false,
-        // Android Properties
-        showTitle: false,
-        enableUrlBarHiding: true,
-        enableDefaultShare: false,
-      })
-        .then(async (response) => {
-          if (response.type === "success" && response.url) {
-            const parsedUrl = new URL(response.url);
-            const authCode = parsedUrl.searchParams.get("auth_code");
-
-            const _response = await honoClient.auth.login.token.$post({
-              json: {
-                auth_code: authCode!,
-                code_verifier: options?.codeVerifier!,
-              },
-            });
-
-            const data = await _response.json();
-            if (data.user) {
-              setUser(data.user);
-            } else {
-            }
-
-            Utils.openUrl(deepLink);
-          }
+    try {
+      if (await InAppBrowser.isAvailable()) {
+        InAppBrowser.openAuth(url, deepLink, {
+          // iOS Properties
+          ephemeralWebSession: false,
+          // Android Properties
+          showTitle: false,
+          enableUrlBarHiding: true,
+          enableDefaultShare: false,
         })
-        .catch((error) => {
-          console.log("InAppBrowser error:", error);
-        });
-    } else Utils.openUrl(url);
+          .then(async (response) => {
+            if (response.type === "success" && response.url) {
+              const parsedUrl = new URL(response.url);
+              const authCode = parsedUrl.searchParams.get("auth_code");
+
+              const _response = await honoClient.auth.login.token.$post({
+                json: {
+                  auth_code: authCode!,
+                  code_verifier: options?.codeVerifier!,
+                },
+              });
+
+              const data = await _response.json();
+              if (data.user) {
+                setUser(data.user);
+              } else {
+              }
+
+              Utils.openUrl(deepLink);
+            }
+          })
+          .catch((error) => {
+            console.log("InAppBrowser error:", error);
+          });
+      } else Utils.openUrl(url);
+    } catch (error) {
+      console.log("[_openAuthUrl]", error);
+    }
 
     return new Promise<{ success: boolean }>((resolve) => {
       setTimeout(() => resolve({ success: true }), timeout);
@@ -267,11 +271,17 @@ export const createAuthContext = () => {
   >(async (options) => {
     const deepLink = getDeepLink("Home");
     const codeVerifier = generateCodeVerifier();
-    const codeChallenge = await generateCodeChallenge(codeVerifier);
+    const clientCodeChallenge = await generateCodeChallenge(codeVerifier);
+
+    console.log("[VERIFIER]", codeVerifier);
+    console.log("[CHALLENGE]", clientCodeChallenge);
 
     const url = honoClient.auth.login.google
       .$url({
-        query: { redirect_url: deepLink, clientCodeChallenge: codeChallenge },
+        query: {
+          redirect_url: deepLink,
+          client_code_challenge: clientCodeChallenge,
+        },
       })
       .toString();
 
@@ -287,11 +297,14 @@ export const createAuthContext = () => {
   >(async (options?: { newWindow?: boolean }) => {
     const deepLink = getDeepLink("Home");
     const codeVerifier = generateCodeVerifier();
-    const codeChallenge = await generateCodeChallenge(codeVerifier);
+    const clientCodeChallenge = await generateCodeChallenge(codeVerifier);
 
     const url = honoClient.auth.login.github
       .$url({
-        query: { redirect_url: deepLink, clientCodeChallenge: codeChallenge },
+        query: {
+          redirect_url: deepLink,
+          client_code_challenge: clientCodeChallenge,
+        },
       })
       .toString();
 

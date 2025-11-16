@@ -48,7 +48,7 @@ export default function Discover() {
         <stacklayout class="px-6 py-6">
           {/* Featured Section */}
           <label class="text-xl font-semibold text-gray-900 mb-4">
-            Featured
+            Featured {router.current().name}
           </label>
           <gridlayout rows="auto, auto" columns="*, *" class="gap-4 mb-8">
             {featuredItems.slice(0, 4).map((item, index) => (

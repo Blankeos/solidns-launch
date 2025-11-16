@@ -23,7 +23,7 @@ export function OTPForm() {
   const handleOTPVerify = async () => {
     const result = await otpVerify.run({ userId: userId(), code: code() });
     if (result) {
-      router.navigate("Home", { clearHistory: true });
+      router.navigate("Home", { clearHistory: true, animated: false });
     }
   };
 
