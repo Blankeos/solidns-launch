@@ -1,10 +1,9 @@
-import { useRoute, useRouter } from "@/router";
-import { FeatureCard } from "~/components/feature-card";
-import { QuickAction } from "~/components/quick-action";
+import { useRoute, useRouter } from "@/router"
+import { FeatureCard } from "~/components/feature-card"
+import { QuickAction } from "~/components/quick-action"
 
 export default function Discover() {
-  const route = useRoute();
-  const router = useRouter();
+  const route = useRoute()
 
   const featuredItems = [
     {
@@ -31,26 +30,28 @@ export default function Discover() {
       description: "Manage connected applications",
       onTap: () => console.log("Apps tapped"),
     },
-  ];
+  ]
+  
+  const router = useRouter()
 
   return (
-    <stacklayout class="bg-gray-50 min-h-full">
+    <stacklayout class="min-h-full bg-gray-50">
       {/* Header */}
-      <stacklayout class="px-6 py-6 bg-white border-b border-gray-200">
-        <label class="text-2xl font-bold text-gray-900 font-inst">
-          Discover
-        </label>
-        <label class="text-gray-600 mt-1">Explore features and content</label>
+      <stacklayout class="border-gray-200 border-b bg-white px-6 py-6">
+        <label class="font-bold font-inst text-2xl text-gray-900">Discover</label>
+        <label class="mt-1 text-gray-600">Explore features and content</label>
       </stacklayout>
 
       {/* Content */}
       <scrollview>
         <stacklayout class="px-6 py-6">
           {/* Featured Section */}
-          <label class="text-xl font-semibold text-gray-900 mb-4">
-            Featured {router.current().name}
-          </label>
-          <gridlayout rows="auto, auto" columns="*, *" class="gap-4 mb-8">
+          <label class="mb-4 font-semibold text-gray-900 text-xl">Featured</label>
+          <label>{route.name}</label>
+          <button on:tap={() => {
+            router.navigate("Home", { noHeader: true })
+          }}>click mee!</button>
+          <gridlayout rows="auto, auto" columns="*, *" class="mb-8 gap-4">
             {featuredItems.slice(0, 4).map((item, index) => (
               <FeatureCard
                 icon={item.icon}
@@ -63,9 +64,7 @@ export default function Discover() {
           </gridlayout>
 
           {/* Quick Actions */}
-          <label class="text-xl font-semibold text-gray-900 mb-4">
-            Quick Access
-          </label>
+          <label class="mb-4 font-semibold text-gray-900 text-xl">Quick Access</label>
           <stacklayout class="gap-3">
             <QuickAction
               icon="📚"
@@ -92,5 +91,5 @@ export default function Discover() {
         </stacklayout>
       </scrollview>
     </stacklayout>
-  );
+  )
 }

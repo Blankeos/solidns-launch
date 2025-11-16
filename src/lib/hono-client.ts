@@ -1,42 +1,42 @@
-import { hc } from "hono/client";
-import { HTTPException } from "hono/http-exception";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
-import type { ApiErrorResponse, AppRouter } from "./api";
+import { hc } from "hono/client"
+import { HTTPException } from "hono/http-exception"
+import type { ContentfulStatusCode } from "hono/utils/http-status"
+import type { ApiErrorResponse, AppRouter } from "./api"
 
 /** Use this on ssr. */
 export const initHonoClient = (
   baseUrl: string,
   ssrProxyParams?: {
-    requestHeaders?: Record<string, string>;
-    responseHeaders?: Headers;
+    requestHeaders?: Record<string, string>
+    responseHeaders?: Headers
   }
 ) =>
   hc<AppRouter>(`${baseUrl}/api`, {
     headers: ssrProxyParams?.requestHeaders ?? {},
     fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
-      const response = await fetch(input, { ...init, cache: "no-store" });
+      const response = await fetch(input, { ...init, cache: "no-store" })
 
       if (!response.ok) {
-        const json: ApiErrorResponse = await response.json();
+        const json: ApiErrorResponse = await response.json()
 
         const errorMessage: string | undefined = (() => {
           // Attempt to parse ZodError as a readable message
           if ((json as any)?.error?.name === "ZodError")
-            return _formatZodIssues((json as any).error.issues);
+            return _formatZodIssues((json as any).error.issues)
 
-          return json.error.message;
-        })();
+          return json.error.message
+        })()
 
-        console.error("[honoClient] error:", errorMessage);
+        console.error("[honoClient] error:", errorMessage)
 
         throw new HTTPException(response.status as ContentfulStatusCode, {
           message: errorMessage || response.statusText,
           cause: json.error.cause,
           res: response,
-        });
+        })
       }
 
-      console.log("COOKIES", response.headers.get("set-cookie"));
+      console.log("COOKIES", response.headers.get("set-cookie"))
 
       // This is where we proxy it back. (Not needed because purely clientside)
       // for (const [key, value] of response.headers) {
@@ -48,24 +48,22 @@ export const initHonoClient = (
       //   ssrProxyParams?.responseHeaders?.set(key, value) // Even Set-Cookie will be set here.
       // }
 
-      return response;
+      return response
     },
-  });
+  })
 
-declare const __PUBLIC_API_URL__: string;
-const baseurl = __PUBLIC_API_URL__;
-console.log("hono-client BASE_URL", baseurl);
+declare const __PUBLIC_API_URL__: string
+const baseurl = __PUBLIC_API_URL__
+console.log("hono-client BASE_URL", baseurl)
 
 /** Use this on the client. */
-export const honoClient = initHonoClient(baseurl);
+export const honoClient = initHonoClient(baseurl)
 
 /** Helper to format Zod issues into a readable message */
 function _formatZodIssues(
   issues?: Array<{ code: string; message: string; path: string[] }>
 ): string | undefined {
-  if (!issues?.length) return undefined;
+  if (!issues?.length) return undefined
 
-  return issues
-    .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
-    .join(", ");
+  return issues.map((issue) => `${issue.path.join(".")}: ${issue.message}`).join(", ")
 }

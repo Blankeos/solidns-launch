@@ -1,16 +1,10 @@
-import { useRouter } from "@/router";
-import { For, createSignal } from "solid-js";
-import { FAQItem } from "~/components/pricing/faq-item";
-import {
-  FeatureComparison,
-  type Feature,
-} from "~/components/pricing/feature-comparison";
-import {
-  PricingCard,
-  type PricingTier,
-} from "~/components/pricing/pricing-card";
-import { useAuthContext } from "~/features/auth/auth.context";
-import { TouchAnimations } from "~/lib/touch-animations";
+import { createSignal, For } from "solid-js"
+import { useRouter } from "@/router"
+import { FAQItem } from "~/components/pricing/faq-item"
+import { type Feature, FeatureComparison } from "~/components/pricing/feature-comparison"
+import { PricingCard, type PricingTier } from "~/components/pricing/pricing-card"
+import { useAuthContext } from "~/features/auth/auth.context"
+import { TouchAnimations } from "~/lib/touch-animations"
 
 const pricingTiers: PricingTier[] = [
   {
@@ -18,13 +12,7 @@ const pricingTiers: PricingTier[] = [
     price: "$0",
     period: "month",
     description: "Perfect for getting started",
-    features: [
-      "1 GB Storage",
-      "Up to 5 users",
-      "Basic support",
-      "Core features",
-      "Mobile access",
-    ],
+    features: ["1 GB Storage", "Up to 5 users", "Basic support", "Core features", "Mobile access"],
     ctaText: "Get Started",
   },
   {
@@ -63,7 +51,7 @@ const pricingTiers: PricingTier[] = [
     highlightColor: "#8b5cf6",
     ctaText: "Contact Sales",
   },
-];
+]
 
 const features: Feature[] = [
   {
@@ -106,7 +94,7 @@ const features: Feature[] = [
     description: "Single sign-on support",
     availableIn: ["Business"],
   },
-];
+]
 
 const faqItems = [
   {
@@ -134,78 +122,64 @@ const faqItems = [
     answer:
       "Yes, we offer special pricing for non-profit organizations and educational institutions. Contact our sales team for more information.",
   },
-];
+]
 
 export default function PricingPage() {
-  const router = useRouter();
-  const { user } = useAuthContext;
-  const [selectedTier, setSelectedTier] = createSignal<string | null>(null);
+  const router = useRouter()
+  const { user } = useAuthContext
+  const [selectedTier, setSelectedTier] = createSignal<string | null>(null)
 
   const handleSelectTier = (tier: PricingTier) => {
-    setSelectedTier(tier.name);
-    console.log("Selected tier:", tier.name);
+    setSelectedTier(tier.name)
+    console.log("Selected tier:", tier.name)
 
     // For demo purposes, just show a message
     if (tier.name === "Free") {
-      router.navigate("Home");
+      router.navigate("Home")
     } else if (tier.name === "Pro") {
       // In a real app, this would open purchase flow
-      console.log("Starting Pro trial...");
+      console.log("Starting Pro trial...")
     } else {
-      console.log("Contacting sales for Business plan...");
+      console.log("Contacting sales for Business plan...")
     }
-  };
+  }
 
   return (
     <scrollview class="bg-gray-50">
-      <stacklayout class="p-6 max-w-md mx-auto">
+      <stacklayout class="mx-auto max-w-md p-6">
         {/* Header */}
         <stacklayout class="mb-8 text-center">
-          <label class="text-3xl font-bold text-gray-900 mb-2">
-            Choose Your Plan
-          </label>
+          <label class="mb-2 font-bold text-3xl text-gray-900">Choose Your Plan</label>
           <label class="text-gray-600 text-lg">
             Simple, transparent pricing for teams of all sizes
           </label>
         </stacklayout>
 
         {/* Pricing Tiers */}
-        <stacklayout class="gap-6 mb-8">
+        <stacklayout class="mb-8 gap-6">
           <For each={pricingTiers}>
-            {(tier) => (
-              <PricingCard
-                tier={tier}
-                onSelect={() => handleSelectTier(tier)}
-              />
-            )}
+            {(tier) => <PricingCard tier={tier} onSelect={() => handleSelectTier(tier)} />}
           </For>
         </stacklayout>
 
         {/* Feature Comparison */}
-        <FeatureComparison
-          features={features}
-          tiers={pricingTiers.map((t) => t.name)}
-        />
+        <FeatureComparison features={features} tiers={pricingTiers.map((t) => t.name)} />
 
         {/* FAQ Section */}
-        <stacklayout class="bg-white rounded-2xl p-6  mt-8">
-          <label class="text-xl font-bold text-gray-900 mb-6 text-center">
+        <stacklayout class="mt-8 rounded-2xl bg-white p-6">
+          <label class="mb-6 text-center font-bold text-gray-900 text-xl">
             Frequently Asked Questions
           </label>
           <For each={faqItems}>
-            {(item) => (
-              <FAQItem question={item.question} answer={item.answer} />
-            )}
+            {(item) => <FAQItem question={item.question} answer={item.answer} />}
           </For>
         </stacklayout>
 
         {/* Footer CTA */}
-        <stacklayout class="text-center mt-8 mb-12">
-          <label class="text-gray-600 text-sm mb-4">
-            Need help choosing a plan?
-          </label>
+        <stacklayout class="mt-8 mb-12 text-center">
+          <label class="mb-4 text-gray-600 text-sm">Need help choosing a plan?</label>
           <button
-            class="bg-gray-800 text-white py-3 px-6 rounded-lg font-semibold"
+            class="rounded-lg bg-gray-800 px-6 py-3 font-semibold text-white"
             touchAnimation={TouchAnimations.touchScale}
             on:tap={() => console.log("Contact support")}
           >
@@ -214,5 +188,5 @@ export default function PricingPage() {
         </stacklayout>
       </stacklayout>
     </scrollview>
-  );
+  )
 }

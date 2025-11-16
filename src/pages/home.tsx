@@ -1,58 +1,52 @@
-import { useRoute, useRouter } from "@/router";
-import { createMemo } from "solid-js";
-import { FeatureCard } from "~/components/feature-card";
-import { StatsDisplay } from "~/components/stats-display";
-import { useAuthContext } from "~/features/auth/auth.context";
+import { useRoute, useRouter } from "@/router"
+import { createMemo } from "solid-js"
+import { FeatureCard } from "~/components/feature-card"
+import { StatsDisplay } from "~/components/stats-display"
+import { useAuthContext } from "~/features/auth/auth.context"
 
 export default function Home() {
-  const route = useRoute();
-  const router = useRouter();
-  const { user, loading, counter } = useAuthContext;
+  const route = useRoute()
+  const router = useRouter()
+  const { user, loading, counter } = useAuthContext
 
   const userName = createMemo(() => {
-    const currentUser = user();
-    return currentUser?.email?.split("@")[0] || "User";
-  });
+    const currentUser = user()
+    return currentUser?.email?.split("@")[0] || "User"
+  })
 
   const userStats = createMemo(() => {
     return {
       projects: 3,
       storage: "2.5GB",
       tasks: 1250,
-    };
-  });
+    }
+  })
 
   return (
-    <stacklayout class="bg-gray-50 min-h-full">
+    <stacklayout class="min-h-full bg-gray-50">
       {/* Header */}
-      <stacklayout class="px-6 py-6 bg-white border-b border-gray-200">
-        <label class="text-3xl text-gray-900 font-inst">Home</label>
-        <label class="text-gray-600 mt-1">
-          Welcome{user() ? `, ${userName()}` : ""} 👋
-        </label>
+      <stacklayout class="border-gray-200 border-b bg-white px-6 py-6">
+        <label class="font-inst text-3xl text-gray-900">Home</label>
+        <label class="mt-1 text-gray-600">Welcome{user() ? `, ${userName()}` : ""} 👋</label>
       </stacklayout>
 
       {/* Content */}
       <scrollview>
         <stacklayout class="px-6 py-6">
           {/* Quick Stats */}
-          <gridlayout
-            columns="*, *, *"
-            orientation="horizontal"
-            class="gap-4 mb-8"
-          >
+          <gridlayout columns="*, *, *" orientation="horizontal" class="mb-8 gap-4">
             <StatsDisplay
               value={userStats().projects}
               label="Projects"
               trend="up"
-              class="flex-1 mr-1"
+              class="mr-1 flex-1"
             />
             <StatsDisplay
               column="1"
               value={userStats().storage}
               label="Storage"
               trend="neutral"
-              class="flex-1 mr-1"
+              class="mr-1 flex-1"
             />
             <StatsDisplay
               column="2"
@@ -64,10 +58,10 @@ export default function Home() {
           </gridlayout>
 
           {/* Quick Actions */}
-          <label class="text-xl font-semibold text-gray-900 mb-4">
-            Quick Access
-          </label>
-          <gridlayout rows="auto, auto" columns="*, *" class="gap-4 mb-8">
+          <label class="mb-4 font-semibold text-gray-900 text-xl">Quick Access</label>
+
+          {/* Counter Demo */}
+          <gridlayout rows="auto, auto" columns="*, *" class="mb-8 gap-4">
             <FeatureCard
               icon="💰"
               title="Pricing"
@@ -99,20 +93,16 @@ export default function Home() {
           </gridlayout>
 
           {/* Recent Activity */}
-          <label class="text-xl font-semibold text-gray-900 mb-4">
-            Recent Activity
-          </label>
-          <stacklayout class="bg-white rounded-lg p-4">
-            <label class="text-gray-600 text-center">
-              No recent activity yet
-            </label>
-            <label class="text-sm text-gray-400 text-center mt-2">
+          <label class="mb-4 font-semibold text-gray-900 text-xl">Recent Activity</label>
+          <stacklayout class="rounded-lg bg-white p-4">
+            <label class="text-center text-gray-600">No recent activity yet</label>
+            <label class="mt-2 text-center text-gray-400 text-sm">
               Start using the app to see your activity here
             </label>
-            <label>{router.current().name}</label>
+            <label>{route.name}</label>
           </stacklayout>
         </stacklayout>
       </scrollview>
     </stacklayout>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-import { useRouter } from "@/router";
-import { CoreTypes } from "@nativescript/core";
-import { For, createSignal } from "solid-js";
-import { TouchAnimations } from "~/lib/touch-animations";
+import { CoreTypes } from "@nativescript/core"
+import { createSignal, For } from "solid-js"
+import { useRouter } from "@/router"
+import { TouchAnimations } from "~/lib/touch-animations"
 
 const onboardingPages = [
   {
@@ -21,13 +21,13 @@ const onboardingPages = [
     description: "You are all set! Let's begin your journey.",
     emoji: "🚀",
   },
-];
+]
 
 export default function OnboardingPage() {
-  const [currentPage, setCurrentPage] = createSignal(0);
-  const router = useRouter();
+  const [currentPage, setCurrentPage] = createSignal(0)
+  const router = useRouter()
 
-  let animationRefs: HTMLLabelElement[] = [];
+  const animationRefs: HTMLLabelElement[] = []
 
   function animateRefs(index: number) {
     animationRefs.forEach((ref, i) => {
@@ -36,27 +36,27 @@ export default function OnboardingPage() {
           width: i === index ? 12 : 8,
           duration: 2000,
           curve: CoreTypes.AnimationCurve.spring,
-        });
+        })
       }
-    });
+    })
   }
 
   const nextPage = () => {
     if (currentPage() < onboardingPages.length - 1) {
-      setCurrentPage(currentPage() + 1);
-      animateRefs(currentPage());
-      return;
+      setCurrentPage(currentPage() + 1)
+      animateRefs(currentPage())
+      return
     }
 
-    router.navigate("Home", { clearHistory: true });
-  };
+    router.navigate("Home", { clearHistory: true })
+  }
 
   const prevPage = () => {
     if (currentPage() > 0) {
-      setCurrentPage(currentPage() - 1);
-      animateRefs(currentPage());
+      setCurrentPage(currentPage() - 1)
+      animateRefs(currentPage())
     }
-  };
+  }
 
   return (
     <>
@@ -66,87 +66,64 @@ export default function OnboardingPage() {
           {currentPage() === 1 ? (
             <image
               src={onboardingPages[1].image}
-              class="w-full h-56 mb-6 rounded-lg"
+              class="mb-6 h-56 w-full rounded-lg"
               stretch="aspectFill"
             />
           ) : (
             <stacklayout
-              class={`h-56 rounded-lg mb-6 ${
+              class={`mb-6 h-56 rounded-lg ${
                 currentPage() === 2 ? "bg-green-400" : "bg-purple-500"
               }`}
             >
-              <stacklayout
-                class="h-full"
-                horizontalAlignment="center"
-                verticalAlignment="center"
-              >
-                <label class="text-6xl">
-                  {onboardingPages[currentPage()].emoji}
-                </label>
+              <stacklayout class="h-full" horizontalAlignment="center" verticalAlignment="center">
+                <label class="text-6xl">{onboardingPages[currentPage()].emoji}</label>
               </stacklayout>
             </stacklayout>
           )}
-          <label
-            class="text-3xl font-bold text-gray-800 mb-4"
-            horizontalAlignment="center"
-          >
+          <label class="mb-4 font-bold text-3xl text-gray-800" horizontalAlignment="center">
             {onboardingPages[currentPage()].title}
           </label>
-          <label
-            class="text-lg text-gray-600 text-center leading-relaxed max-w-full"
-            textWrap
-          >
+          <label class="max-w-full text-center text-gray-600 text-lg leading-relaxed" textWrap>
             {onboardingPages[currentPage()].description}
           </label>
         </stacklayout>
 
         <stacklayout class="flex-1" alignSelf="stretch" />
 
-        <stacklayout
-          class="mb-4"
-          orientation="horizontal"
-          horizontalAlignment="center"
-        >
+        <stacklayout class="mb-4" orientation="horizontal" horizontalAlignment="center">
           <For each={onboardingPages}>
             {(_, index) => (
               <label
                 ref={(el) => {
-                  animationRefs[index()] = el;
+                  animationRefs[index()] = el
                 }}
-                class="w-2 h-2 rounded-full mx-1"
+                class="mx-1 h-2 w-2 rounded-full"
                 style={{
-                  backgroundColor:
-                    index() === currentPage() ? "#3b82f6" : "#d1d5db",
+                  backgroundColor: index() === currentPage() ? "#3b82f6" : "#d1d5db",
                 }}
               />
             )}
           </For>
         </stacklayout>
 
-        <stacklayout class="flex-row justify-between items-center px-8 pb-8">
+        <stacklayout class="flex-row items-center justify-between px-8 pb-8">
           <button
             text="Previous"
             on:tap={prevPage}
             touchAnimation={TouchAnimations.touchScale}
-            class={`px-6 py-3 rounded-lg font-medium transition-opacity ${
-              currentPage() === 0
-                ? "opacity-0"
-                : "opacity-100 bg-gray-200 text-gray-700"
+            class={`rounded-lg px-6 py-3 font-medium transition-opacity ${
+              currentPage() === 0 ? "opacity-0" : "bg-gray-200 text-gray-700 opacity-100"
             }`}
           />
           <button
-            text={
-              currentPage() === onboardingPages.length - 1
-                ? "Get Started"
-                : "Next"
-            }
+            text={currentPage() === onboardingPages.length - 1 ? "Get Started" : "Next"}
             on:tap={nextPage}
             touchAnimation={TouchAnimations.touchScale}
-            class="px-6 py-3 rounded-lg font-medium bg-blue-500 text-white mt-2"
+            class="mt-2 rounded-lg bg-blue-500 px-6 py-3 font-medium text-white"
           />
         </stacklayout>
       </flexboxlayout>
       {/*</scrollview>*/}
     </>
-  );
+  )
 }

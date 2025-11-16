@@ -1,4 +1,4 @@
-import { createContext, useContext } from "solid-js";
+import { createContext, useContext } from "solid-js"
 
 /**
  * A BETTER way to create contexts. Use this over `createContext`
@@ -9,13 +9,13 @@ import { createContext, useContext } from "solid-js";
  * - [ ] 3. Provider - this is what you can finish editing.
  */
 export function createStrictContext<T>(name: string) {
-  const Context = createContext<T>(null as unknown as T);
+  const Context = createContext<T>(null as unknown as T)
 
   function useStrictContext() {
-    const ctx = useContext(Context);
-    if (!ctx) throw new Error(`${name} must be used within its provider`);
-    return ctx;
+    const ctx = useContext(Context)
+    if (!ctx) throw new Error(`${name} must be used within its provider`)
+    return ctx
   }
 
-  return [useStrictContext, Context.Provider] as const;
+  return [useStrictContext, Context.Provider] as const
 }

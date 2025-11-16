@@ -1,11 +1,11 @@
-import { useRoute } from "@/router";
-import { Show } from "solid-js";
-import { QuickAction } from "~/components/quick-action";
-import { useAuthContext } from "~/features/auth/auth.context";
+import { Show } from "solid-js"
+import { useRoute } from "@/router"
+import { QuickAction } from "~/components/quick-action"
+import { useAuthContext } from "~/features/auth/auth.context"
 
 export default function More() {
-  const route = useRoute();
-  const { user } = useAuthContext;
+  const route = useRoute()
+  const { user } = useAuthContext
 
   const moreOptions = [
     {
@@ -44,30 +44,28 @@ export default function More() {
       subtitle: "Learn more about this application",
       onTap: () => console.log("About tapped"),
     },
-  ];
+  ]
 
   return (
-    <stacklayout class="bg-gray-50 min-h-full">
+    <stacklayout class="min-h-full bg-gray-50">
       {/* Header */}
-      <stacklayout class="px-6 py-6 bg-white border-b border-gray-200">
-        <label class="text-2xl font-bold text-gray-900 font-inst">More</label>
-        <label class="text-gray-600 mt-1">
-          Additional options and settings
-        </label>
+      <stacklayout class="border-gray-200 border-b bg-white px-6 py-6">
+        <label class="font-bold font-inst text-2xl text-gray-900">More</label>
+        <label class="mt-1 text-gray-600">Additional options and settings</label>
       </stacklayout>
 
       {/* Content */}
       <scrollview>
         <stacklayout class="px-6 py-6">
           {/* App Info */}
-          <stacklayout class="items-center mb-8">
-            <label class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center text-2xl mb-4">
+          <stacklayout class="mb-8 items-center">
+            <label class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-2xl">
               📱
             </label>
-            <label class="text-xl font-semibold text-gray-900">SolidApp</label>
-            <label class="text-gray-600 mt-1">Version 1.0.0</label>
+            <label class="font-semibold text-gray-900 text-xl">SolidApp</label>
+            <label class="mt-1 text-gray-600">Version 1.0.0</label>
             <Show when={user()}>
-              <label class="text-sm text-indigo-600 mt-2 bg-indigo-50 px-3 py-1 rounded-full">
+              <label class="mt-2 rounded-full bg-indigo-50 px-3 py-1 text-indigo-600 text-sm">
                 {user()?.email}
               </label>
             </Show>
@@ -86,13 +84,11 @@ export default function More() {
           </stacklayout>
 
           {/* Legal Footer */}
-          <stacklayout class="mt-8 pt-6 border-t border-gray-200 items-center">
-            <label class="text-sm text-gray-500">
-              © 2024 SolidApp. All rights reserved.
-            </label>
+          <stacklayout class="mt-8 items-center border-gray-200 border-t pt-6">
+            <label class="text-gray-500 text-sm">© 2024 SolidApp. All rights reserved.</label>
           </stacklayout>
         </stacklayout>
       </scrollview>
     </stacklayout>
-  );
+  )
 }

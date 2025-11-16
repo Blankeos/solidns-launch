@@ -1,23 +1,23 @@
-import { useRouter } from "@/router";
-import { useAuthContext } from "~/features/auth/auth.context";
+import { useRouter } from "@/router"
+import { useAuthContext } from "~/features/auth/auth.context"
 
 interface AppHeaderProps {
-  title?: string;
+  title?: string
 }
 
 export function AppHeader(props: AppHeaderProps) {
-  const { user } = useAuthContext;
+  const { user } = useAuthContext
 
-  const router = useRouter();
+  const router = useRouter()
   return (
-    <flexboxlayout class="px-6 py-4 border-b border-gray-200">
+    <flexboxlayout class="border-gray-200 border-b px-6 py-4">
       <flexboxlayout class="w-full">
         {/* Logo/App Name */}
         <flexboxlayout alignItems="center">
-          <label class="w-8 h-8 mr-2 bg-blue-500 rounded-md flex items-center justify-center">
-            <label class="text-white font-bold text-sm">S</label>
+          <label class="mr-2 flex h-8 w-8 items-center justify-center rounded-md bg-blue-500">
+            <label class="font-bold text-sm text-white">S</label>
           </label>
-          <label class="text-xl font-bold text-indigo-800">SolidApp</label>
+          <label class="font-bold text-indigo-800 text-xl">SolidApp</label>
         </flexboxlayout>
 
         <stacklayout class="flex-1" alignSelf="stretch" />
@@ -25,14 +25,14 @@ export function AppHeader(props: AppHeaderProps) {
         {/* User Profile */}
         <flexboxlayout alignItems="center">
           {user() ? (
-            <label class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+            <label class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200">
               <label class="text-gray-600 text-sm">👤</label>
             </label>
           ) : (
             <button
-              class="text-sm text-gray-500"
+              class="text-gray-500 text-sm"
               on:tap={() => {
-                router.navigate("SignIn", { noHeader: true });
+                router.navigate("SignIn", { noHeader: true })
               }}
             >
               Sign In
@@ -41,5 +41,5 @@ export function AppHeader(props: AppHeaderProps) {
         </flexboxlayout>
       </flexboxlayout>
     </flexboxlayout>
-  );
+  )
 }

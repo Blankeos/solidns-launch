@@ -12,7 +12,7 @@
     "hono": "^4.10.5",
     "nativescript-inappbrowser": "^3.2.0",
     "solid-js": "^1.8.21",
-    "solid-navigation": "1.0.0-alpha.16",
+    "solid-navigation": "/Users/carlo/Desktop/Projects/solid-navigation",
     "tailwindcss": "^4.1.17",
     "undom-ng": "^1.1.2",
     "url": "^0.11.4"
@@ -21,6 +21,7 @@
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
     "@babel/preset-typescript": "^7.28.5",
+    "@biomejs/biome": "^2.3.5",
     "@nativescript-dom/core-types": "1.0.32",
     "@nativescript-dom/solidjs-types": "1.0.25",
     "@nativescript/ios": "8.9.5",
@@ -35,7 +36,11 @@
     "typescript": "~5.9.3"
   },
   "scripts": {
+    "dev": "ns run ios",
     "podinstall": "cd platforms/ios && pod install",
-    "apigen": "curl -s http://localhost:3000/api/docs/hono > src/lib/api.d.ts"
+    "apigen": "curl -s http://localhost:3000/api/docs/hono > src/lib/api.d.ts",
+    "check": "tsc --noemit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write ."
   }
 }

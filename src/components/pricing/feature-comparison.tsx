@@ -1,26 +1,24 @@
-import { For } from "solid-js";
+import { For } from "solid-js"
 
 export interface Feature {
-  name: string;
-  description: string;
-  availableIn: string[];
+  name: string
+  description: string
+  availableIn: string[]
 }
 
 interface FeatureComparisonProps {
-  features: Feature[];
-  tiers: string[];
+  features: Feature[]
+  tiers: string[]
 }
 
 export function FeatureComparison(props: FeatureComparisonProps) {
   const isFeatureAvailable = (feature: Feature, tier: string) => {
-    return feature.availableIn.includes(tier);
-  };
+    return feature.availableIn.includes(tier)
+  }
 
   return (
-    <stacklayout class="bg-white rounded-2xl p-6 ">
-      <label class="text-xl font-bold text-gray-900 mb-6 text-center">
-        Feature Comparison
-      </label>
+    <stacklayout class="rounded-2xl bg-white p-6">
+      <label class="mb-6 text-center font-bold text-gray-900 text-xl">Feature Comparison</label>
 
       <gridlayout
         rows="auto, *"
@@ -28,11 +26,7 @@ export function FeatureComparison(props: FeatureComparisonProps) {
         class="gap-4"
       >
         {/* Header row */}
-        <label
-          row="0"
-          col="0"
-          class="text-sm font-semibold text-gray-700 opacity-0"
-        >
+        <label row="0" col="0" class="font-semibold text-gray-700 text-sm opacity-0">
           Feature
         </label>
         <For each={props.tiers}>
@@ -40,7 +34,7 @@ export function FeatureComparison(props: FeatureComparisonProps) {
             <label
               row="0"
               col={index() + 1}
-              class="text-sm font-semibold text-gray-700 text-center"
+              class="text-center font-semibold text-gray-700 text-sm"
             >
               {tier}
             </label>
@@ -51,12 +45,7 @@ export function FeatureComparison(props: FeatureComparisonProps) {
         <For each={props.features}>
           {(feature, rowIndex) => (
             <>
-              <label
-                row={rowIndex() + 1}
-                col="0"
-                class="text-sm text-gray-700 pr-4"
-                textWrap
-              >
+              <label row={rowIndex() + 1} col="0" class="pr-4 text-gray-700 text-sm" textWrap>
                 {feature.name}
               </label>
               <For each={props.tiers}>
@@ -70,13 +59,13 @@ export function FeatureComparison(props: FeatureComparisonProps) {
                     {isFeatureAvailable(feature, tier) ? (
                       <image
                         src="~/assets/icons/check-circle.svg"
-                        class="w-6 h-6"
+                        class="h-6 w-6"
                         tintColor="#10b981"
                       />
                     ) : (
                       <image
                         src="~/assets/icons/x-circle.svg"
-                        class="w-6 h-6"
+                        class="h-6 w-6"
                         tintColor="#ef4444"
                       />
                     )}
@@ -88,5 +77,5 @@ export function FeatureComparison(props: FeatureComparisonProps) {
         </For>
       </gridlayout>
     </stacklayout>
-  );
+  )
 }

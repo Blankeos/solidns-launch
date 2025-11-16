@@ -1,31 +1,31 @@
-import { useRouter } from "@/router";
-import { createSignal, Show } from "solid-js";
-import { useAuthContext } from "./auth.context";
+import { createSignal, Show } from "solid-js"
+import { useRouter } from "@/router"
+import { useAuthContext } from "./auth.context"
 
 export function OTPForm() {
-  const { otpVerify, otpSend } = useAuthContext;
+  const { otpVerify, otpSend } = useAuthContext
 
-  const [code, setCode] = createSignal("");
-  const [hasSent, setHasSent] = createSignal(false);
-  const [userId, setUserId] = createSignal("");
-  const [email, setEmail] = createSignal("");
+  const [code, setCode] = createSignal("")
+  const [hasSent, setHasSent] = createSignal(false)
+  const [userId, setUserId] = createSignal("")
+  const [email, setEmail] = createSignal("")
 
-  const router = useRouter();
+  const router = useRouter()
 
   const handleOTPSend = async () => {
-    const result = await otpSend.run({ email: email() });
+    const result = await otpSend.run({ email: email() })
     if (result?.userId) {
-      setUserId(result.userId!);
-      setHasSent(true);
+      setUserId(result.userId!)
+      setHasSent(true)
     }
-  };
+  }
 
   const handleOTPVerify = async () => {
-    const result = await otpVerify.run({ userId: userId(), code: code() });
+    const result = await otpVerify.run({ userId: userId(), code: code() })
     if (result) {
-      router.navigate("Home", { clearHistory: true, animated: false });
+      router.navigate("Home", { clearHistory: true, animated: false })
     }
-  };
+  }
 
   return (
     <stacklayout class="w-full max-w-xs flex-col gap-y-3">
@@ -34,11 +34,11 @@ export function OTPForm() {
         text={email()}
         keyboardType="email"
         on:textChange={(args) => {
-          setEmail(args.value);
+          setEmail(args.value)
           // console.log("carll", args.value);
           // setEmail((args.value as string).toLowerCase());
         }}
-        class="p-4 border border-gray-300 rounded mb-3"
+        class="mb-3 rounded border border-gray-300 p-4"
         autocapitalizationtype="none"
       />
       <Show
@@ -47,7 +47,7 @@ export function OTPForm() {
           <button
             text="Send OTP"
             on:tap={handleOTPSend}
-            class="p-4 bg-blue-500 text-white rounded"
+            class="rounded bg-blue-500 p-4 text-white"
           />
         }
       >
@@ -56,14 +56,14 @@ export function OTPForm() {
           text={code()}
           keyboardType="integer"
           on:textChange={(args) => setCode(args.value)}
-          class="p-4 border border-gray-300 rounded mb-3"
+          class="mb-3 rounded border border-gray-300 p-4"
         />
         <button
           text="Verify OTP"
           on:tap={handleOTPVerify}
-          class="p-4 bg-blue-500 text-white rounded"
+          class="rounded bg-blue-500 p-4 text-white"
         />
       </Show>
     </stacklayout>
-  );
+  )
 }
