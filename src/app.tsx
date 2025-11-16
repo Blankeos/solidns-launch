@@ -1,5 +1,5 @@
-import { Route, StackRouter, StackRouterFrame, useRouter } from "@/router"
 import { registerUniversalLinkCallback } from "@nativescript-community/universal-links"
+import { Route, StackRouter, StackRouterFrame, useRouter } from "@/router"
 import "./app.css"
 import { BottomNavigation } from "./components/navigation/bottom-navigation"
 import Discover from "./pages/discover"
@@ -25,7 +25,7 @@ const App = () => {
             <Route name="Discover" component={Discover} />
             <Route name="Profile" component={Profile} />
             <Route name="More" component={More} />
-          <BottomNavigation />
+            <BottomNavigation />
           </StackRouterFrame>
         </StackRouter>
       </gridlayout>

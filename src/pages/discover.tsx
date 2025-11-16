@@ -31,7 +31,7 @@ export default function Discover() {
       onTap: () => console.log("Apps tapped"),
     },
   ]
-  
+
   const router = useRouter()
 
   return (
@@ -48,9 +48,13 @@ export default function Discover() {
           {/* Featured Section */}
           <label class="mb-4 font-semibold text-gray-900 text-xl">Featured</label>
           <label>{route.name}</label>
-          <button on:tap={() => {
-            router.navigate("Home", { noHeader: true })
-          }}>click mee!</button>
+          <button
+            on:tap={() => {
+              router.navigate("Home", { noHeader: true })
+            }}
+          >
+            click mee!
+          </button>
           <gridlayout rows="auto, auto" columns="*, *" class="mb-8 gap-4">
             {featuredItems.slice(0, 4).map((item, index) => (
               <FeatureCard

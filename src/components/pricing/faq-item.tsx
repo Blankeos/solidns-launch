@@ -37,6 +37,7 @@ export function FAQItem(props: FAQItemProps) {
   return (
     <stacklayout class="mb-4 border-gray-200 border-b pb-4">
       <button
+        type="button"
         on:tap={toggleExpanded}
         class="w-full flex-row items-center justify-between py-3"
         horizontalAlignment="stretch"

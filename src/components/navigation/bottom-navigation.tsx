@@ -1,6 +1,6 @@
-import { useRouter } from "@/router"
 import { CoreTypes } from "@nativescript/core"
 import { createSignal, For, Show } from "solid-js"
+import { useRouter } from "@/router"
 import { handleTouchScaleAnimation } from "~/lib/touch-animations"
 
 type TabType = "home" | "discover" | "profile" | "more"
@@ -67,7 +67,6 @@ export function BottomNavigation(props: BottomNavigationProps) {
       columns="*, *, *, *"
       class="border-gray-200 border-t bg-white px-4 pt-3 pb-6"
     >
-      <label>route: {router.current()?.name}</label>
       <For each={tabs}>
         {(tab, index) => (
           <flexboxlayout

@@ -1,5 +1,5 @@
-import { useRoute, useRouter } from "@/router"
 import { createMemo } from "solid-js"
+import { useRoute, useRouter } from "@/router"
 import { FeatureCard } from "~/components/feature-card"
 import { StatsDisplay } from "~/components/stats-display"
 import { useAuthContext } from "~/features/auth/auth.context"
