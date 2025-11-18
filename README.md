@@ -15,7 +15,8 @@ What I know how to do:
 - [x] Static Asset Images, Images from src
 - [x] Fonts
 - [x] Layouts, Flexbox, ScrollView, etc.
-- [x] Routing and Navigation (w/ gotchas i.e. the hack for Tab View)
+- [x] Routing and Navigation
+- [x] .env (Use `webpack.config.ts`, add it to "DefinePlugin", weird syntax, then just `declare const __PUBLIC_API_URL__: string` syntax anywhere)
 - [ ] Nested Layouts?
 - [ ] Routing Params?
 - [x] Gestures: Tap and Touch

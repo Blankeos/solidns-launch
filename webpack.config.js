@@ -8,9 +8,11 @@ module.exports = (env) => {
     config.devServer.hotOnly(true);
     config.devServer.hot(true);
 
+    // Polyfills:
     config.resolve.fallback = {
       ...config.resolve.fallback,
       url: require.resolve("url/"),
+      util: require.resolve("util/"), // Add this
     };
 
     config.plugin("DefinePlugin").tap((args) => {

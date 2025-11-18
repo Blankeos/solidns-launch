@@ -108,6 +108,7 @@ export default function OnboardingPage() {
 
         <stacklayout class="flex-row items-center justify-between px-8 pb-8">
           <button
+            type="button"
             text="Previous"
             on:tap={prevPage}
             touchAnimation={TouchAnimations.touchScale}
@@ -116,6 +117,7 @@ export default function OnboardingPage() {
             }`}
           />
           <button
+            type="button"
             text={currentPage() === onboardingPages.length - 1 ? "Get Started" : "Next"}
             on:tap={nextPage}
             touchAnimation={TouchAnimations.touchScale}

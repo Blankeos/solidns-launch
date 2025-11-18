@@ -93,7 +93,8 @@ export default function Home() {
           </gridlayout>
 
           {/* Recent Activity */}
-          <label class="mb-4 font-semibold text-gray-900 text-xl">Recent Activity</label>
+          <label class="mb-4 font-semibold text-gray-900 text-xl">Recent Activity123</label>
+          <label class="mb-4 font-semibold text-gray-900 text-xl">Recent Activity456</label>
           <stacklayout class="rounded-lg bg-white p-4">
             <label class="text-center text-gray-600">No recent activity yet</label>
             <label class="mt-2 text-center text-gray-400 text-sm">

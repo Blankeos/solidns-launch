@@ -60,7 +60,7 @@ export function FooterNavigation() {
             class="h-6 w-6 text-center text-lg opacity-60"
             on:tap={() => {
               // Navigate to support
-              router.navigate("Support")
+              router.navigate("Profile")
             }}
             on:touch={(e) => {
               e.object.animate({

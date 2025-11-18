@@ -15,7 +15,7 @@ const App = () => {
   return (
     <>
       <gridlayout rows="*, auto">
-        <StackRouter initialRouteName="Discover">
+        <StackRouter initialRouteName="Home">
           <Providers />
           <StackRouterFrame>
             <Route name="Onboarding" component={OnboardingPage} />

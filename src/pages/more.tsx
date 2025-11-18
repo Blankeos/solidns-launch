@@ -62,7 +62,8 @@ export default function More() {
             <label class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-2xl">
               📱
             </label>
-            <label class="font-semibold text-gray-900 text-xl">SolidApp</label>
+            <label class="font-semibold text-gray-900 text-xl">Solid App</label>
+            <label>Nice</label>
             <label class="mt-1 text-gray-600">Version 1.0.0</label>
             <Show when={user()}>
               <label class="mt-2 rounded-full bg-indigo-50 px-3 py-1 text-indigo-600 text-sm">
