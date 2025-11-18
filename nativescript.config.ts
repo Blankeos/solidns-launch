@@ -8,4 +8,6 @@ export default {
     v8Flags: "--expose_gc",
     markingMode: "none",
   },
+  bundler: "vite",
+  bundlerConfigPath: "vite.config.ts",
 } as NativeScriptConfig
