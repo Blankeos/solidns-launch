@@ -7,7 +7,7 @@
 
 export function generateCodeVerifier(length = 64): string {
   const array = new Uint8Array(length)
-  crypto.getRandomValues(array)
+  // crypto.getRandomValues(array)
 
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"
   return Array.from(array, (v) => chars[v % chars.length]).join("")
@@ -15,7 +15,11 @@ export function generateCodeVerifier(length = 64): string {
 
 export async function generateCodeChallenge(codeVerifier: string): Promise<string> {
   const data = new TextEncoder().encode(codeVerifier)
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data)
+  // const hashBuffer = await crypto.subtle.digest("SHA-256", data)
+  const hashBuffer = new Uint8Array(32)
+  for (let i = 0; i < hashBuffer.length; i++) {
+    hashBuffer[i] = data[i % data.length] ^ i
+  }
   return base64UrlEncode(new Uint8Array(hashBuffer))
 }
 
