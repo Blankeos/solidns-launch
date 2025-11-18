@@ -1,20 +1,31 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "lib": ["ESNext", "DOM"],
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "jsx": "preserve",
     "jsxImportSource": "@nativescript-dom/solidjs-types",
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"],
-      "@/*": ["src/*"]
+      "~/*": [
+        "src/*"
+      ],
+      "@/*": [
+        "src/*"
+      ]
     },
     "noEmit": true,
     "allowJs": true,
-    "types": ["node", "@nativescript-dom/core-types", "@nativescript-dom/solidjs-types"],
+    "types": [
+      "node",
+      "@nativescript-dom/core-types",
+      "@nativescript-dom/solidjs-types"
+    ],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -22,8 +33,15 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "noEmitHelpers": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "removeComments": false
   },
-  "include": ["src", "references.d.ts"],
-  "exclude": ["node_modules", "platforms"]
+  "include": [
+    "src",
+    "references.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "platforms"
+  ]
 }
